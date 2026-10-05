@@ -1,0 +1,27 @@
+{
+  "cache_id": "active_user_cache",
+  "connection_id": "main_database",
+  "cache_type": "PRELOAD",
+  "retention": { "type": "TIMESTAMP", "value": 3600 },
+  "primary_key": ["id"],
+  "select": {
+    "query": "SELECT * FROM public.users WHERE status = 'ACTIVE'",
+    "fields": []
+  },
+  "insert": {
+    "query": "INSERT INTO public.users (id, user_id, display_name, status) VALUES ($1, $2, $3, $4)",
+    "fields": ["id", "user_id", "display_name", "status"]
+  },
+  "update": {
+    "query": "UPDATE public.users SET user_id = $1, display_name = $2, status = $3 WHERE id = $4",
+    "fields": ["user_id", "display_name", "status", "id"]
+  },
+  "delete": {
+    "query": "DELETE FROM public.users WHERE id = $1",
+    "fields": ["id"]
+  },
+  "maps": [
+    ["id"],
+    ["user_id"]
+  ]
+}

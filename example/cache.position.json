@@ -1,0 +1,27 @@
+{
+  "cache_id": "flight_position_cache",
+  "connection_id": "main_database",
+  "cache_type": "PRELOAD",
+  "retention": { "type": "NONE", "value": 0 },
+  "primary_key": ["seq"],
+  "select": {
+    "query": "SELECT * FROM public.flight_positions",
+    "fields": []
+  },
+  "insert": {
+    "query": "INSERT INTO public.flight_positions (seq, callsign, event_time, lat, lng) VALUES ($1, $2, $3, $4, $5)",
+    "fields": ["seq", "callsign", "event_time", "lat", "lng"]
+  },
+  "update": {
+    "query": "UPDATE public.flight_positions SET callsign = $1, event_time = $2, lat = $3, lng = $4 WHERE seq = $5",
+    "fields": ["callsign", "event_time", "lat", "lng", "seq"]
+  },
+  "delete": {
+    "query": "DELETE FROM public.flight_positions WHERE seq = $1",
+    "fields": ["seq"]
+  },
+  "maps": [
+    ["seq"],
+    ["callsign"]
+  ]
+}

@@ -1,0 +1,14 @@
+target/
+/test/data/
+/bin/
+!/bin/
+/bin/*
+!/bin/import-postgresql-to-sqlite.sh
+!/bin/start-sqlite-test.sh
+!/bin/purpose-sqlite-test.sh
+*.body
+*.header
+*.tmp
+*.lck
+*.pid
+*.sock

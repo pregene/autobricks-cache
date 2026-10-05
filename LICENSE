@@ -1,0 +1,838 @@
+# Autobricks Source-Available License
+
+Version 1.0
+
+Copyright (c) 2026 Autobricks.
+All rights reserved.
+
+---
+
+## 1. Purpose and License Classification
+
+This License makes source code available for reading, inspection, audit, analysis, and reference when independently developing other software. You may install, execute, evaluate, and test Official Packages and Unmodified Builds.
+
+This License permits building unmodified source code, using and redistributing the resulting Unmodified Builds, and including them in Your own commercial products. It does **not** grant a general right to modify the Software, build or use modified versions, or create derivative works.
+
+Accordingly, this License is a **source-available license** and is not intended to qualify as an Open Source license under the Open Source Initiative definition.
+
+All rights not expressly granted by this License are reserved by the Licensor.
+
+---
+
+## 2. Definitions
+
+For purposes of this License:
+
+### 2.1 Software
+
+**"Software"** means all materials distributed under this License, including, where applicable:
+
+* source code;
+* executable code;
+* object code;
+* scripts;
+* service files;
+* build files;
+* configuration templates;
+* documentation;
+* data files;
+* installation files;
+* packaging files; and
+* other materials included with the Software.
+
+### 2.2 Licensor
+
+**"Licensor"** means the copyright holder identified in the copyright notice above, its lawful successor, or another person or legal entity expressly authorized to license the Software.
+
+### 2.3 You
+
+**"You"** means an individual or legal entity exercising rights granted under this License.
+
+### 2.4 Modification
+
+**"Modification"** means any change to the Software or any portion of it, including:
+
+* addition;
+* deletion;
+* replacement;
+* editing;
+* patching;
+* adaptation;
+* translation;
+* transformation;
+* porting;
+* alteration of program logic;
+* alteration of executable or object code; or
+* any other change that produces a modified version of the Software.
+
+Changes expressly permitted under Section 5, **Runtime Configuration and Normal Operation**, are not considered Modifications for purposes of this License.
+
+### 2.5 Derivative Work
+
+**"Derivative Work"** means a work that is based upon, incorporates, adapts, modifies, translates, transforms, or is otherwise legally derived from the Software under applicable copyright law.
+
+### 2.6 Redistribution
+
+**"Redistribution"** means making copies of the Software available to another person or legal entity by any means, including:
+
+* publishing;
+* transferring;
+* providing copies;
+* hosting for download;
+* including the Software in another distribution;
+* selling copies; or
+* otherwise supplying copies to a third party.
+
+### 2.7 Official Package
+
+**"Official Package"** means an executable distribution, installer, binary archive, or update built or expressly approved for release by the Licensor and supplied through an official Autobricks distribution channel. A complete, unmodified copy of such a package redistributed under Section 6 remains an Official Package. A third-party build is not an Official Package merely because its source code, version, name, or output matches an official release.
+
+### 2.8 Build
+
+**"Build"** means compiling, assembling, linking, transpiling, or otherwise transforming source code or intermediate code of the Software into executable code, object code, libraries, test binaries, or installation packages. This includes local builds, automated or CI builds, reproducible builds, and builds for evaluation, testing, or personal use, whether or not the source code is modified. Ordinary installation, unpacking, runtime loading, and configuration of an Official Package as supplied and documented by the Licensor are not Builds.
+
+### 2.9 Unmodified Build
+
+**"Unmodified Build"** means a Build produced from the original source code supplied by the Licensor without editing that source code, implementation scripts, build logic, or dependency declarations. Using documented build options and supported toolchains, and changes to generated artifacts or version metadata made automatically by the supplied build process, do not by themselves constitute a prohibited Modification. This exception does not permit manual source edits, patches, removal of functionality, or weakening of security controls. An Unmodified Build is not an Official Package.
+
+---
+
+## 3. Grant of Permission
+
+Subject to all terms of this License, the Licensor grants You a worldwide, non-exclusive, royalty-free right to:
+
+1. view and inspect the source code;
+2. download the Software;
+3. copy the Software;
+4. perform security review and source-code audit;
+5. evaluate and test Official Packages and Unmodified Builds;
+6. install Official Packages and Unmodified Builds;
+7. execute and operate Official Packages and Unmodified Builds;
+8. use Official Packages and Unmodified Builds for personal, educational, research, internal organizational, or commercial purposes;
+9. develop integrations using documented interfaces without modifying the Software;
+10. configure the Software as expressly permitted under Section 5;
+11. make backup and archival copies; and
+12. redistribute unmodified source distributions, Official Packages, and Unmodified Builds in accordance with Section 6;
+13. refer to the source code to understand ideas, algorithms, behavior, and interfaces when independently developing other software, without copying, adapting, translating, or incorporating protected implementation code; and
+14. download and Build the original, unmodified source code, including in local or CI environments, to produce Unmodified Builds for use, evaluation, testing, and redistribution; and
+15. include Official Packages or Unmodified Builds as unmodified components in Your own products, and sell, license, supply, and commercially distribute those products, subject to Sections 6 and 8.
+
+No permission to modify the Software or build, use, incorporate, or redistribute modified versions is granted except where expressly authorized in writing by the Licensor.
+
+---
+
+## 4. Modifications, Modified Builds, and Derivative Works Prohibited
+
+You may Build the original source code and use Unmodified Builds under Section 3. Without prior written permission from the Licensor, You may not modify the Software or build, install, execute, operate, test, use, publish, or redistribute a modified version. Redistribution of self-built binaries or packages is governed by Section 6.
+
+Without prior written permission, You may not:
+
+1. modify source code;
+2. modify executable or object code;
+3. add functionality;
+4. remove functionality;
+5. disable functionality;
+6. replace functionality;
+7. alter program logic;
+8. patch the Software;
+9. distribute patches intended to alter the Software;
+10. modify build logic in order to create a modified version;
+11. translate the Software into another programming language;
+12. port the Software to another platform by modifying its implementation;
+13. create a modified binary;
+14. create or distribute a modified package;
+15. create a Derivative Work;
+16. publish a modified version;
+17. redistribute a modified version;
+18. operate a modified version as a publicly accessible service;
+19. incorporate modified portions of the Software into another product;
+20. copy substantial protected implementation code into another software product;
+21. remove or alter license-enforcement or security-related behavior; or
+22. represent a modified implementation as the original Software.
+
+This Section does not prohibit software that is independently developed without copying, modifying, adapting, or deriving protected expression from the Software.
+
+Builds and Modifications created directly by the Licensor are not restricted by this Section.
+
+Builds and Modifications expressly authorized in writing by the Licensor are permitted only within the scope of that authorization. Build instructions may be used for Unmodified Builds under Section 3; they do not authorize modifications or modified builds.
+
+---
+
+## 5. Runtime Configuration and Normal Operation
+
+Normal configuration required to install, deploy, integrate, administer, and operate the Software is permitted and is not considered a prohibited Modification.
+
+You may change configuration values exposed by the Software for their intended operational purpose.
+
+Permitted configuration changes may include:
+
+* IP addresses;
+* hostnames;
+* network interfaces;
+* ports;
+* service addresses;
+* log sources;
+* log destinations;
+* syslog settings;
+* storage locations;
+* mount points;
+* filesystem paths;
+* retention periods;
+* service names;
+* program names;
+* user names;
+* group names;
+* file ownership;
+* permitted filesystem permissions;
+* certificates;
+* certificate paths;
+* cryptographic keys;
+* key paths;
+* authentication settings;
+* authorization settings;
+* access-control settings;
+* startup parameters;
+* service parameters;
+* environment variables;
+* documented policy settings; and
+* other parameters expressly intended to be configured by an administrator.
+
+You may also perform normal administrative operations, including:
+
+* starting services;
+* stopping services;
+* restarting services;
+* enabling or disabling startup of the service;
+* mounting supported storage;
+* configuring operating-system logging;
+* configuring supported syslog integration;
+* configuring service accounts;
+* creating backups;
+* restoring authorized backups;
+* installing certificates;
+* replacing certificates;
+* applying official updates supplied by the Licensor; and
+* operating documented maintenance procedures.
+
+The permission in this Section does not authorize changes to:
+
+* source code;
+* executable code;
+* object code;
+* internal program logic;
+* security enforcement logic; or
+* scripts containing implementation logic,
+
+except where such changes are expressly authorized in writing by the Licensor.
+
+---
+
+## 6. Redistribution of Unmodified Copies
+
+You may redistribute complete, unmodified source distributions, Official Packages, and Unmodified Builds, including binaries or libraries compiled from the original, unmodified source. You may include Official Packages or Unmodified Builds as components of Your own products and sell or otherwise commercially distribute those products. No separate permission or royalty is required under this License for these activities.
+
+Product packaging, installers, and independent integration code may accompany the unmodified component. They must not alter its implementation, remove required notices, or bypass its security controls. Including the component in a larger product does not require distribution of the entire original repository or impose this License on Your independently developed product code. Recipients must receive this License and the applicable notices with the component and receive the same rights to the component under this License. This permission does not authorize copying protected source implementation into Your product's source or incorporating a modified build.
+
+Recipients may Build the unmodified source and use, incorporate, and redistribute Unmodified Builds under the same terms. A redistributed Unmodified Build must not be represented as an Official Package unless approved by the Licensor.
+
+Redistributed copies must preserve:
+
+1. this License in its entirety;
+2. copyright notices;
+3. attribution notices;
+4. security notices;
+5. warranty disclaimers;
+6. project-name information;
+7. version information;
+8. notices relating to third-party software; and
+9. references to the official project where such references are included in the original distribution.
+
+You may not:
+
+1. remove this License;
+2. replace this License with another license;
+3. remove copyright notices;
+4. obscure copyright notices;
+5. remove attribution;
+6. claim authorship of the Software;
+7. claim ownership of the Software;
+8. remove third-party license notices;
+9. alter the Software before redistribution; or
+10. imply that You are the official developer or maintainer of the Software.
+
+Recipients of an authorized unmodified copy receive their rights directly from the Licensor under this License.
+
+You may not sublicense the Software under different terms.
+
+---
+
+## 7. Public Repositories and GitHub Forks
+
+If the Software is hosted in a public repository on GitHub or another source-code hosting platform, the platform's terms may grant users certain rights necessary to use that platform, including viewing, copying, or forking a repository.
+
+Nothing in this License is intended to revoke rights that the hosting platform itself validly grants for use of its service.
+
+However, the ability to technically create a repository fork does not by itself grant permission under this License to:
+
+* modify the Software;
+* publish a modified version;
+* distribute a modified version;
+* operate a modified version;
+* create a Derivative Work; or
+* relicense the Software.
+
+You may Build an unmodified fork or source copy, including through automated CI, for use, product integration, and redistribution under Sections 3 and 6. Forking does not authorize source modifications or modified builds.
+
+An unmodified fork or repository copy may be maintained for purposes such as:
+
+* archival;
+* inspection;
+* security review;
+* evaluation;
+* static analysis; or
+* reference for independent development.
+
+Runtime testing may use Official Packages or Unmodified Builds.
+
+Any Modification requires prior written permission from the Licensor.
+
+---
+
+## 8. Integration With Other Software
+
+You may integrate and operate Official Packages and Unmodified Builds with independent systems through documented or ordinarily supported interfaces. You may refer to published source code to understand those interfaces and independently develop integrations, subject to Sections 3 and 4.
+
+Permitted integrations may include:
+
+* APIs;
+* command-line interfaces;
+* IPC mechanisms;
+* Unix domain sockets;
+* TCP/IP;
+* UDP;
+* syslog;
+* supported filesystem interfaces;
+* documented network protocols;
+* databases;
+* monitoring systems;
+* logging systems;
+* storage systems;
+* operating-system services;
+* hardware devices;
+* authentication systems;
+* certificate systems; and
+* other documented interfaces.
+
+Using an interface to communicate with the Software does not by itself create a Derivative Work. Including an Official Package or Unmodified Build as an unmodified component in an independently developed product is expressly permitted, including commercial sale and distribution. The prohibition on Derivative Works does not prohibit this expressly permitted combination. The component remains under this License; Your independent product code may use its own license.
+
+However, this Section does not authorize:
+
+* copying source code into another project;
+* modifying internal components;
+* replacing internal implementation logic;
+* producing a modified implementation; or
+* creating a Derivative Work from the Software.
+
+---
+
+## 9. Security and Integrity Protection
+
+You may not intentionally remove, disable, bypass, weaken, circumvent, or alter security-related functionality of the Software.
+
+Security-related functionality includes, where applicable:
+
+* integrity protection;
+* tamper protection;
+* WORM enforcement;
+* immutable-storage controls;
+* retention enforcement;
+* write protection;
+* deletion controls;
+* authentication;
+* authorization;
+* access control;
+* cryptographic verification;
+* certificate verification;
+* audit logging;
+* audit-record protection;
+* security-event recording;
+* integrity metadata;
+* verification metadata;
+* protected administrative operations; and
+* other controls intended to protect stored data or system integrity.
+
+Security analysis of publicly available source code is permitted.
+
+Permission to inspect or analyze the Software does not grant permission to modify, disable, or bypass its security controls.
+
+---
+
+## 10. WORM and Audit Data Protection
+
+Where the Software implements Write Once Read Many (WORM), immutable storage, retention enforcement, or audit-log protection, You may not intentionally use or alter the Software in a manner designed to:
+
+1. alter protected data after commitment;
+2. overwrite protected data;
+3. replace protected data without authorization;
+4. delete protected data before expiration of its applicable retention period;
+5. bypass retention enforcement;
+6. falsify audit records;
+7. suppress audit records required by the Software;
+8. conceal unauthorized modification;
+9. disable integrity validation;
+10. forge integrity information;
+11. bypass protected administrative controls; or
+12. misrepresent unprotected or modified data as data protected by the original Software.
+
+### Authorized Retention Expiration
+
+This Section does not prohibit deletion that occurs through the Software's documented retention mechanism after the applicable retention period has expired.
+
+Normal expiration, cleanup, and deletion performed by the original Software according to an authorized retention policy are permitted.
+
+---
+
+## 11. Feedback, Bug Reports, and Contributions
+
+You may provide:
+
+* bug reports;
+* security reports;
+* feature requests;
+* design suggestions;
+* operational feedback; and
+* descriptions of proposed improvements.
+
+Providing feedback does not require permission.
+
+However, because Modification is otherwise prohibited, You may not prepare or submit modified source code, patches, or pull requests unless the Licensor has expressly authorized You to do so.
+
+### Authorized Contributions
+
+If the Licensor expressly authorizes You to prepare or submit a patch, pull request, or other source-code contribution, that authorization applies only to the specific contribution or scope approved by the Licensor.
+
+Unless otherwise agreed in writing, by submitting an authorized contribution You grant the Licensor a perpetual, worldwide, irrevocable, non-exclusive, royalty-free, transferable, and sublicensable license to:
+
+1. use the contribution;
+2. reproduce it;
+3. modify it;
+4. integrate it into the Software;
+5. distribute it;
+6. sublicense it;
+7. commercialize it; and
+8. include it in current or future versions of the Software.
+
+Authorization to submit a contribution does not grant permission to independently publish, maintain, distribute, or operate a modified version of the Software.
+
+The Licensor is not required to accept or use any contribution.
+
+---
+
+## 12. Commercial Use
+
+Commercial use of Official Packages and Unmodified Builds is permitted. You may include Official Packages or Unmodified Builds in Your own commercial products and sell or distribute those products under Sections 6 and 8. Commercial use does not authorize source modifications or building, using, incorporating, or redistributing modified versions.
+
+This may include operating the original Software:
+
+* within a business;
+* within an organization;
+* as part of internal infrastructure;
+* in a production environment;
+* in connection with commercial services; or
+* together with other systems through permitted interfaces.
+
+Commercial use does not grant permission to modify the Software.
+
+Without prior written permission from the Licensor, You may not commercially:
+
+* distribute a modified version;
+* sell a modified version;
+* rebrand a modified version;
+* sublicense a modified version;
+* incorporate modified source code into another product; or
+* offer a modified version as a hosted or managed service.
+
+Commercial redistribution of unmodified source distributions, Official Packages, and Unmodified Builds, including as components in Your own products, remains subject to Section 6.
+
+---
+
+## 13. Reverse Engineering
+
+Except where applicable law provides rights that cannot legally be restricted, You may not reverse engineer, decompile, or disassemble executable or object-code portions of the Software for the purpose of:
+
+* bypassing security controls;
+* bypassing license restrictions;
+* extracting protected implementation components;
+* producing a modified implementation; or
+* creating a Derivative Work.
+
+This Section does not prohibit inspection, analysis, or security review of source code intentionally published by the Licensor.
+
+Nothing in this License limits mandatory rights that applicable law expressly provides and does not permit to be waived or restricted.
+
+---
+
+## 14. Autobricks Name, Marks, and Branding
+
+This License does not grant any trademark rights.
+
+The name:
+
+**Autobricks**
+
+and any related:
+
+* product names;
+* trademarks;
+* logos;
+* service marks;
+* visual identities;
+* domain names; or
+* branding
+
+remain the property of their respective owners.
+
+You may use the Autobricks name solely as reasonably necessary to accurately identify the original Software.
+
+You may not:
+
+1. falsely claim to be Autobricks;
+2. imply endorsement by Autobricks;
+3. imply certification by Autobricks;
+4. imply sponsorship by Autobricks;
+5. imply an official relationship with Autobricks;
+6. present a modified product as an official Autobricks product;
+7. use confusingly similar branding to misrepresent origin; or
+8. remove original attribution notices.
+
+Any additional trademark permission requires separate written authorization.
+
+---
+
+## 15. Third-Party Components
+
+The Software may include, depend upon, link to, or interact with third-party software.
+
+Third-party software remains governed by its respective license.
+
+This License applies only to material for which the Licensor has authority to grant rights under this License.
+
+Nothing in this License restricts rights independently granted to You by a third-party license.
+
+If a third-party license grants rights that cannot lawfully be restricted by this License, the third-party license controls with respect to that third-party component.
+
+You are responsible for complying with applicable third-party licenses.
+
+---
+
+## 16. Ownership and Reservation of Rights
+
+The Software is licensed, not sold.
+
+Ownership of a physical or electronic copy does not transfer copyright or other intellectual-property ownership.
+
+Except for the limited permissions expressly granted under this License:
+
+* copyright remains with the Licensor;
+* ownership remains with the Licensor;
+* trademark rights remain with their respective owners; and
+* all other rights are reserved.
+
+No right is implied merely because:
+
+* the source code is publicly visible;
+* the repository is public;
+* the Software may be downloaded;
+* the Software may be forked through a hosting platform;
+* binaries are publicly available;
+* documentation is publicly available; or
+* the Software may technically be modified.
+
+No patent license is granted by this License unless expressly stated in a separate written agreement.
+
+---
+
+## 17. License Violation and Termination
+
+Your rights under this License automatically terminate if You materially violate this License.
+
+Upon termination, You must cease any unauthorized:
+
+* use;
+* operation;
+* modification;
+* publication;
+* redistribution;
+* sublicensing; or
+* commercial exploitation
+
+of the Software.
+
+You must cease distribution and operation of any unauthorized modified version or Derivative Work.
+
+The Licensor may restore Your rights through written authorization after a violation has been corrected.
+
+Termination does not limit any other rights or remedies available to the Licensor under applicable law.
+
+The following provisions survive termination to the extent applicable:
+
+* ownership;
+* reservation of rights;
+* trademark restrictions;
+* warranty disclaimer;
+* limitation of liability; and
+* provisions that by their nature are intended to survive.
+
+---
+
+## 18. Disclaimer of Warranty
+
+THE SOFTWARE IS PROVIDED **"AS IS"** AND **"AS AVAILABLE"**, WITHOUT WARRANTY OF ANY KIND, EXPRESS, IMPLIED, OR STATUTORY, TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW.
+
+THE LICENSOR DISCLAIMS WARRANTIES INCLUDING, WITHOUT LIMITATION:
+
+* MERCHANTABILITY;
+* FITNESS FOR A PARTICULAR PURPOSE;
+* NON-INFRINGEMENT;
+* ACCURACY;
+* RELIABILITY;
+* AVAILABILITY;
+* SECURITY;
+* DATA INTEGRITY;
+* CONTINUOUS OPERATION; AND
+* ERROR-FREE OPERATION.
+
+THE LICENSOR DOES NOT WARRANT THAT THE SOFTWARE WILL:
+
+* OPERATE WITHOUT INTERRUPTION;
+* OPERATE WITHOUT ERROR;
+* PREVENT ALL DATA LOSS;
+* PREVENT ALL SECURITY INCIDENTS;
+* SATISFY EVERY REGULATORY REQUIREMENT;
+* SATISFY EVERY AUDIT REQUIREMENT;
+* PRESERVE DATA UNDER EVERY FAILURE CONDITION;
+* DETECT EVERY TAMPERING ATTEMPT; OR
+* BE SUITABLE FOR EVERY OPERATIONAL ENVIRONMENT.
+
+YOU ARE RESPONSIBLE FOR EVALUATING WHETHER THE SOFTWARE IS APPROPRIATE FOR YOUR INTENDED USE.
+
+---
+
+## 19. Limitation of Liability
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE LICENSOR, AUTHORS, MAINTAINERS, CONTRIBUTORS, AND AUTHORIZED DISTRIBUTORS SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, PUNITIVE, CONSEQUENTIAL, OR OTHER DAMAGES ARISING FROM OR RELATED TO THE SOFTWARE.
+
+THIS INCLUDES, WITHOUT LIMITATION:
+
+* LOSS OF DATA;
+* CORRUPTION OF DATA;
+* LOSS OF LOG DATA;
+* LOSS OF AUDIT RECORDS;
+* LOSS OF PROFITS;
+* LOSS OF REVENUE;
+* LOSS OF BUSINESS;
+* BUSINESS INTERRUPTION;
+* SYSTEM FAILURE;
+* STORAGE FAILURE;
+* SECURITY INCIDENTS;
+* UNAUTHORIZED ACCESS;
+* SERVICE INTERRUPTION;
+* FAILURE OF RETENTION CONTROLS;
+* FAILURE OF INTEGRITY CONTROLS;
+* FAILURE OF AUDIT CONTROLS;
+* LOSS OF EVIDENTIARY VALUE;
+* REGULATORY CONSEQUENCES;
+* COMPLIANCE CONSEQUENCES; OR
+* COST OF SUBSTITUTE GOODS OR SERVICES.
+
+THIS LIMITATION APPLIES REGARDLESS OF WHETHER LIABILITY IS ASSERTED UNDER:
+
+* CONTRACT;
+* TORT;
+* NEGLIGENCE;
+* STRICT LIABILITY;
+* STATUTE; OR
+* ANOTHER LEGAL THEORY,
+
+EVEN IF THE LICENSOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+Some jurisdictions do not allow certain exclusions or limitations of liability. In those jurisdictions, these provisions apply only to the maximum extent permitted by law.
+
+---
+
+## 20. Compliance With Applicable Law
+
+You are responsible for using the Software in compliance with applicable:
+
+* laws;
+* regulations;
+* court orders;
+* contractual obligations; and
+* organizational requirements.
+
+Nothing in this License requires You to violate applicable law.
+
+Nothing in this License excludes or restricts a right that applicable law does not permit the parties to exclude or restrict.
+
+---
+
+## 21. Additional Permissions
+
+The Licensor may grant additional permissions through a separate written agreement.
+
+Such permission may include authorization to:
+
+* Build from modified source code;
+* install, execute, test, use, or redistribute specifically authorized builds;
+
+* modify the Software;
+* create a Derivative Work;
+* maintain a private modified version;
+* publish a modified version;
+* operate a modified version;
+* redistribute modified versions;
+* integrate modified source code into another product;
+* rebrand the Software;
+* sublicense the Software;
+* commercially distribute a modified version; or
+* obtain a separate commercial license.
+
+Additional permission applies only to the scope expressly stated in the written authorization.
+
+No oral permission or implied permission is sufficient.
+
+---
+
+## 22. Severability
+
+If any provision of this License is held invalid, illegal, or unenforceable by a competent authority, that provision shall be applied to the maximum extent permitted by law.
+
+The remaining provisions remain in effect.
+
+---
+
+## 23. No Waiver
+
+Failure by the Licensor to enforce a provision of this License does not waive that provision.
+
+Failure to enforce one violation does not waive the right to enforce another violation.
+
+Any waiver must be expressly made in writing by the Licensor.
+
+---
+
+## 24. Entire License
+
+This License contains the terms under which the Licensor grants rights in the Software unless a separate written agreement expressly provides otherwise.
+
+The License is not modified by:
+
+* repository discussions;
+* issue comments;
+* documentation;
+* chat messages;
+* forum posts;
+* pull-request discussions;
+* verbal statements; or
+* other informal communications.
+
+A separate written agreement signed or otherwise expressly authorized by the Licensor may grant additional or different rights.
+
+---
+
+## 25. License Versions
+
+This Software is licensed under **Autobricks Source-Available License Version 1.0** unless the Licensor expressly states otherwise.
+
+The Licensor may publish future versions of this License.
+
+Publication of a later license version does not automatically relicense Software previously distributed under Version 1.0.
+
+A later version applies only where the Licensor expressly states that the Software may be used under that later version.
+
+---
+
+## 26. Acceptance
+
+By exercising any permission granted by this License, You acknowledge that Your use of the Software is subject to the terms of this License.
+
+If You do not accept these terms, You must not exercise rights granted solely by this License.
+
+Rights granted independently by applicable law or by a third-party license are not affected except to the extent lawfully permitted.
+
+---
+
+## 27. Permission Requests
+
+Prior written permission from the Licensor is required before You:
+
+* Build from modified source code;
+* install, execute, test, use, or publish a modified build;
+
+* modify the Software;
+* prepare an unauthorized patch;
+* publish modified source code;
+* create a Derivative Work;
+* distribute a modified version;
+* operate a modified version as a service;
+* incorporate modified source code into another product;
+* rebrand a modified version;
+* sublicense a modified version; or
+* commercially distribute a modified version.
+
+Permission requests should be submitted through an official Autobricks communication channel or another contact method designated by the Licensor.
+
+---
+
+## 28. Plain-Language Summary
+
+This Section is provided only as a convenience.
+
+If this summary conflicts with another provision of this License, the full License terms above control.
+
+### You may:
+
+* view the source code;
+* inspect and audit the source code;
+* download the Software;
+* refer to source code when independently developing other software without copying protected implementation code;
+* download and Build the original, unmodified source code;
+* include Official Packages or Unmodified Builds in Your own products and sell or distribute those products;
+* install and use Official Packages and Unmodified Builds;
+* operate Official Packages and Unmodified Builds commercially;
+* change documented runtime configuration;
+* set retention periods through supported configuration;
+* integrate through documented interfaces;
+* make backups;
+* maintain an unmodified repository copy; and
+* redistribute unmodified source distributions, Official Packages, and Unmodified Builds with the required license and notices.
+
+### You may not, without prior written permission:
+
+* Build or compile modified source code;
+* install, execute, test, use, or distribute modified builds;
+
+* modify source code;
+* modify executable or object code;
+* create patches that change the Software;
+* create Derivative Works;
+* publish modified versions;
+* redistribute modified versions;
+* operate modified versions as a service;
+* copy modified implementation code into another product;
+* remove or weaken security controls;
+* bypass WORM protections;
+* bypass retention protections;
+* delete protected data before authorized retention expiration;
+* falsify audit data;
+* remove copyright notices;
+* replace this License;
+* rebrand a modified version as an official Autobricks product; or
+* claim ownership or authorship of the Software.
+
+---
+
+**Autobricks Source-Available License 1.0**
+
+Copyright (c) 2026 Autobricks.
+All rights reserved.
