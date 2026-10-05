@@ -56,6 +56,7 @@ For SQLite, specify a file path in `database` and declare the SQLite-specific `o
   "host": "",
   "port": 0,
   "database": "data/cache.sqlite3",
+  "queue_directory": "data/queue",
   "authentication": { "username": "", "password": "" },
   "tls_used": false,
   "connect_timeout_ms": 2000,
@@ -101,6 +102,7 @@ The following is a complete PostgreSQL connection example.
   "host": "position-db.example.test",
   "port": 5432,
   "database": "air_position",
+  "queue_directory": "data/queue",
   "authentication": {
     "username": "autobricks_cache",
     "password": "air_position_db_password"
@@ -192,6 +194,7 @@ When only `ca_file` is present, connect with TLS. When `cert` and `key` are pres
 
 | Field | Description |
 | --- | --- |
+| `queue_directory` | Persistent WRITE Queue directory owned by this Connection |
 | `connect_timeout_ms` | Limit for establishing a new DB connection |
 | `query_timeout_ms` | Limit for executing a DB operation |
 Distinguish connection-establishment limits from query-execution limits. Record an explicit failure state when a timeout expires.

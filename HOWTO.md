@@ -22,8 +22,18 @@ Before calling a Cache Interface, the program initializes the Library by passing
 initialize(connection_config, cache_config)
 ```
 
+The shared-library entry point is:
+
+```c
+char *result = ab_cache_initialize(connection_config, cache_config);
+ab_cache_string_free(result);
+```
+
 - `connection_config`: A single JSON Object defining the Database connection and Connection Pool
 - `cache_config`: A JSON Array containing Cache Definitions that share the same Connection
+
+The Connection definition must include `queue_directory`. The Connection owns
+the persistent WRITE Queue files stored in that directory.
 
 A program using configuration files reads both files and passes their respective JSON content.
 
@@ -107,6 +117,13 @@ After initialization completes, use `query()`, `insert()`, `update()`, `delete()
 uninitialize()
 ```
 
+The shared-library entry point is:
+
+```c
+char *result = ab_cache_uninitialize();
+ab_cache_string_free(result);
+```
+
 ```rust
 uninitialize();
 ```
@@ -139,6 +156,7 @@ For an unencrypted Database connection, set `tls_used` to `false`. In this case,
   "host": "127.0.0.1",
   "port": 5432,
   "database": "application_database",
+  "queue_directory": "data/queue",
   "authentication": {
     "username": "cache_service",
     "password": "change-this-password"
@@ -164,6 +182,7 @@ For a TLS connection that validates the Server certificate, set `tls_used` to `t
   "host": "database.example.com",
   "port": 5432,
   "database": "application_database",
+  "queue_directory": "data/queue",
   "authentication": {
     "username": "cache_service",
     "password": "change-this-password"
@@ -192,6 +211,7 @@ For an mTLS connection in which Server and Client authenticate each other, set `
   "host": "database.example.com",
   "port": 5432,
   "database": "application_database",
+  "queue_directory": "data/queue",
   "authentication": {
     "username": "cache_service",
     "password": "change-this-password"
@@ -567,7 +587,7 @@ Example output:
   "code": 0,
   "message": "success",
   "product": "Autobricks Cache",
-  "version": "0.1.102",
+  "version": "0.1.104",
   "copyright": "(C) 2026 Autobricks, Co.",
   "record_count": 100000,
   "memory_bytes": 111989330
@@ -591,6 +611,7 @@ For plain SQLite, set `opt.key` to `null`.
   "host": "",
   "port": 0,
   "database": "data/application.sqlite3",
+  "queue_directory": "data/queue",
   "authentication": {
     "username": "",
     "password": ""
@@ -682,6 +703,7 @@ With `uri: true`, `database` may contain an SQLite URI. To let multiple Pool Con
 ```json
 {
   "database": "file:autobricks-cache?mode=memory&cache=shared",
+  "queue_directory": "data/queue",
   "opt": {
     "key": null,
     "open_mode": "READ_WRITE_CREATE",
@@ -743,6 +765,7 @@ SQLCipher also uses `sqlite` as the `driver`. The difference from plain SQLite i
   "host": "",
   "port": 0,
   "database": "/var/lib/application/application.sqlcipher",
+  "queue_directory": "/var/lib/application/cache-queue",
   "authentication": {
     "username": "",
     "password": ""

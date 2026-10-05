@@ -56,4 +56,8 @@ impl CacheSystem {
             .map(|caches| caches.len())
             .map_err(|_| CacheError::new(ErrorCode::LockPoisoned, "Cache registry is unavailable"))
     }
+
+    pub fn stop(&mut self) -> Result<()> {
+        self.retention.stop()
+    }
 }

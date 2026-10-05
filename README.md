@@ -8,19 +8,20 @@ Autobricks Cache is implemented in Rust and C++. Rust owns the public Interface,
 
 ## Primary Objective
 
-The primary objective of Autobricks Cache is to **keep average Cache lookup response time stable within a consistent range as the number of request Threads increases**.
+The primary objective of Autobricks Cache is to provide applications with a
+native shared library that owns Database Connections, Cache definitions,
+persistent WRITE Queues, and MAP-based in-memory record access behind a small
+JSON Interface.
 
 As concurrent requests increase, direct database lookups can show greater per-request response-time variance because of Connection Pool waits, DB load, and I/O conditions. Autobricks Cache isolates this DB response variance and Connection contention from the user lookup path and provides predictable response performance under concurrent requests through MAP-based in-memory lookups.
 
 The current source supports PostgreSQL, MariaDB, and SQLite. Records loaded into the Cache provide stable lookup performance isolated from Connection contention and response-time variance in the source DBMS. MySQL, Oracle, DB2, and Microsoft SQL Server will be added in a later version. Couchbase and MongoDB are outside the supported scope and are provided by the separate `jcache` product.
 
-The primary performance-test criterion is also not a simple `Database / Cache` speed ratio. The first consideration is whether Cache `average ms/query` remains within a consistent range as concurrent requests increase across 1, 10, and 20 Threads. The speed ratio relative to the Database is used as a secondary metric for understanding the Cache's absolute speed.
-
 ## Why Autobricks Cache
 
 Autobricks Cache is designed for applications that need predictable read latency while keeping a database as the system of record.
 
-- **Stable concurrent lookups:** Cache average latency remained between `0.000999` and `0.003803 ms/query` across the measured 1, 10, and 20 Thread cases.
+- **Stable concurrent lookups:** MAP-based lookups remain independent of Database Connection Pool waits and Database I/O.
 - **Isolation from database contention:** Cache lookups do not borrow a Database Connection. Pool waits, Database load, storage latency, and network variance remain outside the Cache lookup path.
 - **Direct MAP access:** Every supported lookup uses a predefined MAP. The runtime does not fall back to scanning all cached records when a lookup definition is missing.
 - **Immediate in-memory changes:** Insert, Update, and Delete operations update the Cache first, so subsequent Cache lookups observe the new state without waiting for the Database write.
@@ -28,63 +29,6 @@ Autobricks Cache is designed for applications that need predictable read latency
 - **One record, multiple indexes:** Primary Key and secondary or group MAPs reference the same Cache record instead of storing independent record copies.
 - **Server and embedded databases:** The same Cache contract supports PostgreSQL, MariaDB, plain SQLite, and encrypted SQLCipher databases.
 - **Deployable native library:** Rust and C++ are packaged as a C ABI shared library for macOS and Ubuntu on arm64 and x86-64/amd64.
-
-The measurements below are reproducible observations from the documented environment, not universal DBMS claims. Their main purpose is to show the latency and concurrency characteristics of the Cache lookup path.
-
-## Lookup Performance
-
-Cache MAP lookups and direct Database lookups were measured using the same 100,000 user records and the same list of random `user_id` values. The Connection Pool uses `pool_size = 10`, comprising one WRITE Connection and nine SELECT Connections. Each Thread performs 100 lookups, and every Query returns exactly one record.
-
-Every value is the average response time for one Query in `ms/query`. Direct Database lookup includes borrowing a Pool Connection, executing the Query, converting the result, and returning the Connection. Connection and Thread creation time are excluded.
-
-### PostgreSQL
-
-| Thread | Query | Cache Average | PostgreSQL Average | PostgreSQL / Cache |
-| ---: | ---: | ---: | ---: | ---: |
-| 1 | 100 | 0.000999 | 0.513084 | 513.60x |
-| 10 | 1,000 | 0.002030 | 0.496535 | 244.60x |
-| 20 | 2,000 | 0.003304 | 0.710056 | 214.91x |
-
-### SQLite
-
-SQLite was opened with `key: null`, `WAL`, and `synchronous: NORMAL`.
-
-| Thread | Query | Cache Average | SQLite Average | SQLite / Cache |
-| ---: | ---: | ---: | ---: | ---: |
-| 1 | 100 | 0.001002 | 0.009076 | 9.06x |
-| 10 | 1,000 | 0.002229 | 0.027045 | 12.13x |
-| 20 | 2,000 | 0.003691 | 0.057197 | 15.50x |
-
-### SQLCipher
-
-SQLCipher was opened with the bundled SQLCipher Engine, an encryption Key, `WAL`, and `synchronous: NORMAL`. Separate validation confirmed that an ordinary SQLite Client cannot open the encrypted file, initialization fails with a missing or incorrect Key, and all 100,000 records can be read only with the correct Key.
-
-| Thread | Query | Cache Average | SQLCipher Average | SQLCipher / Cache |
-| ---: | ---: | ---: | ---: | ---: |
-| 1 | 100 | 0.001037 | 0.021799 | 21.02x |
-| 10 | 1,000 | 0.002056 | 0.088251 | 42.92x |
-| 20 | 2,000 | 0.003803 | 0.151846 | 39.93x |
-
-### Test Environment
-
-The measurement environment does not record personally identifiable information such as device names, user names, or account paths.
-
-| Item | Environment |
-| --- | --- |
-| Measurement date | 2026-10-05 |
-| Operating system | macOS 14.6.1, arm64 |
-| CPU | Apple M1, 8 Core |
-| Memory | 16 GiB |
-| Rust | 1.97.1 |
-| C++ Compiler | Apple clang 16.0.0 |
-| PostgreSQL | 18.6, Local Server |
-| SQLite | 3.50.4, bundled SQLCipher build, plaintext `key: null` |
-| SQLCipher | 4.10.0 Community, bundled build |
-| Data | 100,000 user records, `user_id` Unique Index |
-| Cache | PRELOAD 100,000 records, `id` and `user_id` MAPs |
-| Pool | 10 total: 9 SELECT, 1 WRITE |
-
-These results are warm indexed lookup measurements from the environment above. They do not represent general DBMS performance. The primary Cache criterion is whether average Cache response time remains within a consistent range as Thread count increases, rather than the ratio for each DB type.
 
 ## Source Organization Principles
 
@@ -393,8 +337,20 @@ The expected Cargo configuration is as follows.
 crate-type = ["cdylib"]
 ```
 
-The public C ABI, headers, ABI versioning rules, build method, installation paths, and linking examples will be added to this document when the Interface is finalized. Internal Rust types are not exposed directly across the shared-library boundary.
+The public header is `autobricks_cache.h`. It exposes initialization,
+shutdown, and the five Cache operations: `query`, `insert`, `update`,
+`delete`, and `status`. Every operation accepts UTF-8 JSON and returns a
+UTF-8 JSON string. Release returned strings with `ab_cache_string_free()`.
+Internal Rust types and C++ Cache Core functions are not exposed across the
+shared-library boundary.
+
+Applications initialize the library with a Connection JSON object and a Cache
+Definition JSON array. The Connection object owns `queue_directory`, its
+persistent WRITE Queue, its DB Worker, and its physical Database Connections.
 
 ## Current Scope
 
-This is an initial design document defining the fundamental role and operational contracts of Autobricks Cache. API names, configuration formats, supported databases, and failure-recovery behavior that have not yet been finalized must not be treated as implemented functionality.
+Version 0.1.104 exposes the C ABI declared in `autobricks_cache.h` and supports
+PostgreSQL, MariaDB, SQLite, and SQLCipher through the documented Connection
+and Cache Definition formats. Future functionality is not part of the public
+contract until it is documented and released.

@@ -1,12 +1,8 @@
 [package]
 name = "autobricks-cache"
-version = "0.1.102"
+version = "0.1.104"
 edition = "2021"
 build = "build.rs"
-
-[features]
-default = []
-benchmark = []
 
 [lib]
 crate-type = ["cdylib", "rlib"]

@@ -143,6 +143,14 @@ impl ConnectionRuntime {
     }
 }
 
+impl Drop for ConnectionRuntime {
+    fn drop(&mut self) {
+        if let Ok(worker) = self.worker.get_mut() {
+            let _ = worker.stop();
+        }
+    }
+}
+
 fn worker_lock_error() -> crate::error::CacheError {
     crate::error::CacheError::new(
         crate::error::ErrorCode::LockPoisoned,

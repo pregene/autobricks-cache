@@ -275,7 +275,8 @@ mod tests {
             r#"{{
                 "connection_id":"sqlcipher_test", "name":"sqlcipher test",
                 "kind":"DATABASE", "driver":"sqlite", "host":"", "port":0,
-                "database":"{}", "authentication":{{"username":"","password":""}},
+                "database":"{}", "queue_directory":"test/data/queue",
+                "authentication":{{"username":"","password":""}},
                 "tls_used":false, "connect_timeout_ms":2000, "query_timeout_ms":5000,
                 "pool_used":true, "pool_size":2,
                 "opt":{{"key":{key}, "open_mode":"READ_WRITE_CREATE", "mutex":"FULL",

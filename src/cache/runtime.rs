@@ -135,13 +135,6 @@ impl Cache {
         Ok(self.core.status()?.record_count)
     }
 
-    #[cfg(feature = "benchmark")]
-    pub(crate) fn benchmark_load_records(&self, records: Vec<DatabaseRecord>) -> Result<usize> {
-        let count = records.len();
-        self.insert_records_at(records, unix_time())?;
-        Ok(count)
-    }
-
     pub fn status(&self) -> String {
         match self.status_data() {
             Ok(status) => json!({
@@ -914,7 +907,7 @@ mod tests {
         let status: serde_json::Value = serde_json::from_str(&cache.status()).unwrap();
         assert_eq!(status["code"], 0);
         assert_eq!(status["product"], PRODUCT_NAME);
-        assert_eq!(status["version"], "0.1.102");
+        assert_eq!(status["version"], "0.1.104");
         assert_eq!(status["copyright"], PRODUCT_COPYRIGHT);
         assert_eq!(status["record_count"], 0);
         for _ in 0..100 {

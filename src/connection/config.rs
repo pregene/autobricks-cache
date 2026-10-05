@@ -11,6 +11,7 @@ pub struct ConnectionDefinition {
     pub host: String,
     pub port: u16,
     pub database: String,
+    pub queue_directory: String,
     pub authentication: AuthenticationDefinition,
     pub tls_used: bool,
     pub tls: Option<TlsDefinition>,
@@ -143,7 +144,10 @@ impl ConnectionDefinition {
     }
 
     pub fn validate(&self) -> Result<()> {
-        if self.connection_id.trim().is_empty() || self.database.trim().is_empty() {
+        if self.connection_id.trim().is_empty()
+            || self.database.trim().is_empty()
+            || self.queue_directory.trim().is_empty()
+        {
             return Err(CacheError::new(
                 ErrorCode::InvalidConnectionRuntimeConfig,
                 "Connection fields must not be empty",
@@ -250,6 +254,7 @@ mod tests {
                 "host":"database.example.test",
                 "port":5432,
                 "database":"application",
+                "queue_directory":"test/data/queue",
                 "authentication":{{"username":"cache","password":"secret"}},
                 "tls_used":{},
                 {tls}
