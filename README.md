@@ -14,15 +14,22 @@ As concurrent requests increase, direct database lookups can show greater per-re
 
 The current source supports PostgreSQL, MariaDB, and SQLite. Records loaded into the Cache provide stable lookup performance isolated from Connection contention and response-time variance in the source DBMS. MySQL, Oracle, DB2, and Microsoft SQL Server will be added in a later version. Couchbase and MongoDB are outside the supported scope and are provided by the separate `jcache` product.
 
-SQLite performance-test data is generated from the existing PostgreSQL data. After migrating PostgreSQL `users` and `memory_records` to SQLite, the PRELOAD/lookup tests and ON_DEMAND/Retention tests are run separately.
-
-```sh
-bin/import-postgresql-to-sqlite.sh
-bin/start-sqlite-test.sh
-bin/purpose-sqlite-test.sh
-```
-
 The primary performance-test criterion is also not a simple `Database / Cache` speed ratio. The first consideration is whether Cache `average ms/query` remains within a consistent range as concurrent requests increase across 1, 10, and 20 Threads. The speed ratio relative to the Database is used as a secondary metric for understanding the Cache's absolute speed.
+
+## Why Autobricks Cache
+
+Autobricks Cache is designed for applications that need predictable read latency while keeping a database as the system of record.
+
+- **Stable concurrent lookups:** Cache average latency remained between `0.000999` and `0.003803 ms/query` across the measured 1, 10, and 20 Thread cases.
+- **Isolation from database contention:** Cache lookups do not borrow a Database Connection. Pool waits, Database load, storage latency, and network variance remain outside the Cache lookup path.
+- **Direct MAP access:** Every supported lookup uses a predefined MAP. The runtime does not fall back to scanning all cached records when a lookup definition is missing.
+- **Immediate in-memory changes:** Insert, Update, and Delete operations update the Cache first, so subsequent Cache lookups observe the new state without waiting for the Database write.
+- **Connection-owned write ordering:** Each Connection owns one persistent WRITE Queue and one DB Worker. Caches sharing a Connection preserve serialized Database write order without creating a Worker per Cache.
+- **One record, multiple indexes:** Primary Key and secondary or group MAPs reference the same Cache record instead of storing independent record copies.
+- **Server and embedded databases:** The same Cache contract supports PostgreSQL, MariaDB, plain SQLite, and encrypted SQLCipher databases.
+- **Deployable native library:** Rust and C++ are packaged as a C ABI shared library for macOS and Ubuntu on arm64 and x86-64/amd64.
+
+The measurements below are reproducible observations from the documented environment, not universal DBMS claims. Their main purpose is to show the latency and concurrency characteristics of the Cache lookup path.
 
 ## Lookup Performance
 
