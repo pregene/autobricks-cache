@@ -39,7 +39,7 @@ dependencies = [
 
 [[package]]
 name = "autobricks-cache"
-version = "0.1.104"
+version = "0.1.106"
 dependencies = [
  "bytes",
  "libloading",

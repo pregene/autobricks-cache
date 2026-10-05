@@ -587,7 +587,7 @@ Example output:
   "code": 0,
   "message": "success",
   "product": "Autobricks Cache",
-  "version": "0.1.104",
+  "version": "0.1.106",
   "copyright": "(C) 2026 Autobricks, Co.",
   "record_count": 100000,
   "memory_bytes": 111989330

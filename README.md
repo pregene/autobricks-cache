@@ -350,7 +350,7 @@ persistent WRITE Queue, its DB Worker, and its physical Database Connections.
 
 ## Current Scope
 
-Version 0.1.104 exposes the C ABI declared in `autobricks_cache.h` and supports
+Version 0.1.106 exposes the C ABI declared in `autobricks_cache.h` and supports
 PostgreSQL, MariaDB, SQLite, and SQLCipher through the documented Connection
 and Cache Definition formats. Future functionality is not part of the public
 contract until it is documented and released.

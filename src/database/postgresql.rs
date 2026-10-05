@@ -5,7 +5,7 @@ use crate::operation;
 use bytes::BytesMut;
 use openssl::ssl::{SslConnector, SslFiletype, SslMethod};
 use postgres::fallible_iterator::FallibleIterator;
-use postgres::types::{to_sql_checked, IsNull, ToSql, Type};
+use postgres::types::{to_sql_checked, FromSqlOwned, IsNull, ToSql, Type};
 use postgres::{Client, Config, NoTls, Row};
 use postgres_openssl::MakeTlsConnector;
 use std::error::Error;
@@ -173,37 +173,48 @@ fn decode_row(row: &Row) -> Result<DatabaseRecord> {
 }
 
 fn decode_value(row: &Row, index: usize, value_type: &Type) -> Result<DatabaseValue> {
-    if row
-        .try_get::<_, Option<Vec<u8>>>(index)
-        .is_ok_and(|value| value.is_none())
-    {
-        return Ok(DatabaseValue::Null);
-    }
     match *value_type {
-        Type::BOOL => Ok(DatabaseValue::Boolean(
-            row.try_get(index).map_err(row_error)?,
-        )),
-        Type::INT2 => Ok(DatabaseValue::Signed(i64::from(
-            row.try_get::<_, i16>(index).map_err(row_error)?,
-        ))),
-        Type::INT4 => Ok(DatabaseValue::Signed(i64::from(
-            row.try_get::<_, i32>(index).map_err(row_error)?,
-        ))),
-        Type::INT8 => Ok(DatabaseValue::Signed(
-            row.try_get(index).map_err(row_error)?,
-        )),
-        Type::FLOAT4 => Ok(DatabaseValue::Float(f64::from(
-            row.try_get::<_, f32>(index).map_err(row_error)?,
-        ))),
-        Type::FLOAT8 => Ok(DatabaseValue::Float(row.try_get(index).map_err(row_error)?)),
-        Type::BYTEA => Ok(DatabaseValue::Bytes(row.try_get(index).map_err(row_error)?)),
+        Type::BOOL => decode_nullable(row, index, DatabaseValue::Boolean),
+        Type::INT2 => decode_nullable(row, index, |value: i16| {
+            DatabaseValue::Signed(i64::from(value))
+        }),
+        Type::INT4 => decode_nullable(row, index, |value: i32| {
+            DatabaseValue::Signed(i64::from(value))
+        }),
+        Type::INT8 => decode_nullable(row, index, DatabaseValue::Signed),
+        Type::FLOAT4 => decode_nullable(row, index, |value: f32| {
+            DatabaseValue::Float(f64::from(value))
+        }),
+        Type::FLOAT8 => decode_nullable(row, index, DatabaseValue::Float),
+        Type::BYTEA => decode_nullable(row, index, DatabaseValue::Bytes),
         Type::TEXT | Type::VARCHAR | Type::BPCHAR | Type::NAME => {
-            Ok(DatabaseValue::Text(row.try_get(index).map_err(row_error)?))
+            decode_nullable(row, index, DatabaseValue::Text)
         }
         _ => Err(CacheError::new(
             ErrorCode::RecordDecodingFailed,
             format!("PostgreSQL type {value_type} is not supported"),
         )),
+    }
+}
+
+fn decode_nullable<T>(
+    row: &Row,
+    index: usize,
+    present: impl FnOnce(T) -> DatabaseValue,
+) -> Result<DatabaseValue>
+where
+    T: FromSqlOwned,
+{
+    Ok(nullable_value(
+        row.try_get::<_, Option<T>>(index).map_err(row_error)?,
+        present,
+    ))
+}
+
+fn nullable_value<T>(value: Option<T>, present: impl FnOnce(T) -> DatabaseValue) -> DatabaseValue {
+    match value {
+        Some(value) => present(value),
+        None => DatabaseValue::Null,
     }
 }
 
@@ -241,4 +252,45 @@ fn row_error(error: postgres::Error) -> CacheError {
 
 fn db_error(code: ErrorCode, action: &str, error: postgres::Error) -> CacheError {
     CacheError::new(code, format!("PostgreSQL {action} failed: {error}"))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn preserves_null_for_every_supported_postgresql_value_type() {
+        assert_eq!(
+            nullable_value(None::<bool>, DatabaseValue::Boolean),
+            DatabaseValue::Null
+        );
+        assert_eq!(
+            nullable_value(None::<i16>, |value| DatabaseValue::Signed(i64::from(value))),
+            DatabaseValue::Null
+        );
+        assert_eq!(
+            nullable_value(None::<i32>, |value| DatabaseValue::Signed(i64::from(value))),
+            DatabaseValue::Null
+        );
+        assert_eq!(
+            nullable_value(None::<i64>, DatabaseValue::Signed),
+            DatabaseValue::Null
+        );
+        assert_eq!(
+            nullable_value(None::<f32>, |value| DatabaseValue::Float(f64::from(value))),
+            DatabaseValue::Null
+        );
+        assert_eq!(
+            nullable_value(None::<f64>, DatabaseValue::Float),
+            DatabaseValue::Null
+        );
+        assert_eq!(
+            nullable_value(None::<Vec<u8>>, DatabaseValue::Bytes),
+            DatabaseValue::Null
+        );
+        assert_eq!(
+            nullable_value(None::<String>, DatabaseValue::Text),
+            DatabaseValue::Null
+        );
+    }
 }
